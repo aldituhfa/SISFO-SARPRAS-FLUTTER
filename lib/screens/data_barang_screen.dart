@@ -23,19 +23,17 @@ class _DataBarangScreenState extends State<DataBarangScreen> {
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         backgroundColor: Colors.blueGrey[800],
-        automaticallyImplyLeading: false, 
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
-            Text(
+            const Text(
               "Data Barang",
               style: TextStyle(color: Colors.white),
             ),
             const Spacer(),
             IconButton(
               icon: const Icon(Icons.account_circle, color: Colors.white),
-              onPressed: () {
-                // Aksi tambahan jika diperlukan
-              },
+              onPressed: () {},
             )
           ],
         ),
@@ -53,10 +51,11 @@ class _DataBarangScreenState extends State<DataBarangScreen> {
               icon: const Icon(Icons.add),
               label: const Text("Pinjam Barang"),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 169, 214, 239),
+                backgroundColor: const Color.fromARGB(255, 169, 214, 239),
               ),
             ),
           ),
+
           // List Barang
           Expanded(
             child: FutureBuilder<List<Barang>>(
@@ -67,12 +66,11 @@ class _DataBarangScreenState extends State<DataBarangScreen> {
                   return GridView.builder(
                     padding: const EdgeInsets.all(10),
                     itemCount: items.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // 2 kolom
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
-                      childAspectRatio: 3 / 2.3,
+                      childAspectRatio: 3 / 3.8,
                     ),
                     itemBuilder: (context, index) {
                       final barang = items[index];
@@ -81,41 +79,72 @@ class _DataBarangScreenState extends State<DataBarangScreen> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         elevation: 3,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                barang.nama,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Gambar Barang
+                            Expanded(
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(12),
+                                    topRight: Radius.circular(12),
+                                  ),
+                                  image: DecorationImage(
+                                    image: NetworkImage(barang.gambar),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                              const SizedBox(height: 6),
-                              Text("Kategori: ${barang.kategori}",
-                                  style: const TextStyle(fontSize: 12)),
-                              Text("Stok: ${barang.stok} ${barang.satuan}",
-                                  style: const TextStyle(fontSize: 12)),
-                              const Spacer(),
-                              Row(
+                            ),
+
+                            // Informasi Barang
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Icon(Icons.location_on,
-                                      size: 16, color: Colors.teal),
-                                  const SizedBox(width: 4),
-                                  Expanded(
-                                    child: Text(
-                                      barang.lokasi,
-                                      style: const TextStyle(fontSize: 12),
-                                      overflow: TextOverflow.ellipsis,
+                                  Text(
+                                    barang.nama,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black87,
                                     ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "Kategori: ${barang.kategori}",
+                                    style: const TextStyle(fontSize: 12),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    "Stok: ${barang.stok} ${barang.satuan}",
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.location_on,
+                                          size: 14, color: Colors.teal),
+                                      const SizedBox(width: 4),
+                                      Expanded(
+                                        child: Text(
+                                          barang.lokasi,
+                                          style: const TextStyle(fontSize: 12),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       );
                     },
@@ -133,16 +162,8 @@ class _DataBarangScreenState extends State<DataBarangScreen> {
         backgroundColor: Colors.blueGrey[800],
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white70,
-        currentIndex: 2,
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.pushNamed(context, '/dashboard');
-          } else if (index == 1) {
-            Navigator.pushNamed(context, '/data-barang');
-          } else if (index == 2) {
-            Navigator.pushNamed(context, '/data-peminjaman');
-          }
-        },
+        currentIndex: selectedIndex,
+        onTap: onNavTapped,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),

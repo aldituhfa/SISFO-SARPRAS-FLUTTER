@@ -15,7 +15,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int jumlahBarang = 0;
   int jumlahPeminjaman = 0;
   List<dynamic> barangTerbaru = [];
-  String? userEmail; // simpan email user
+  String? userEmail;
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     fetchJumlahBarang();
     fetchJumlahPeminjaman();
     fetchBarangTerbaru();
-    loadUserEmail(); // load email saat inisialisasi
+    loadUserEmail();
   }
 
   Future<void> loadUserEmail() async {
@@ -81,7 +81,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget buildInfoCard(String title, int value, IconData icon, Color color) {
     return Expanded(
       child: Card(
-        color: Colors.white,
+        color: Colors.grey[200], // Ganti dari Colors.white
         elevation: 4,
         margin: const EdgeInsets.all(8),
         child: Padding(
@@ -110,6 +110,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget buildBarangTerbaruCard() {
     return Card(
+      color: Colors.grey[200], // Ganti warna putih jadi abu terang
       elevation: 4,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Padding(
@@ -182,6 +183,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100], // Ganti dari default putih
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('Dashboard'),
@@ -246,7 +248,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         backgroundColor: Colors.blueGrey[800],
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white70,
-        currentIndex: 2,
+        currentIndex: 0,
         onTap: (index) {
           if (index == 0) {
             Navigator.pushNamed(context, '/dashboard');

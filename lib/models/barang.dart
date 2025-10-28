@@ -5,6 +5,7 @@ class Barang {
   final int stok;
   final String satuan;
   final String lokasi;
+  final String gambar;
 
   Barang({
     required this.id,
@@ -13,6 +14,7 @@ class Barang {
     required this.stok,
     required this.satuan,
     required this.lokasi,
+    required this.gambar,
   });
 
   factory Barang.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,9 @@ class Barang {
       stok: json['stok'] ?? 0,
       satuan: json['satuan'] ?? 'Tanpa Satuan',
       lokasi: json['lokasi'] ?? 'Tanpa Lokasi',
+      gambar: 'http://127.0.0.1:8000/storage/' + json['gambar'],
+
+
     );
   }
 }
